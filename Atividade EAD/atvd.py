@@ -1,7 +1,6 @@
 import os
 import csv
 
-# Nome dos arquivos de armazenamento
 ARQUIVO_USUARIOS = "usuarios.csv"
 ARQUIVO_LIVROS = "livros.csv"
 
@@ -9,27 +8,26 @@ MATRIZ_USUARIOS = []
 MATRIZ_LIVROS = []
 USUARIO_LOGADO = None
 
-# --- FUNÇÕES DE CARREGAMENTO E SALVAMENTO (CSV) ---
 
 def carregar_dados():
     """Carrega os dados dos arquivos CSV para as matrizes na memória se existirem."""
     global MATRIZ_USUARIOS, MATRIZ_LIVROS
     
-    # Carregar Usuários
+    
     if os.path.exists(ARQUIVO_USUARIOS):
         with open(ARQUIVO_USUARIOS, mode='r', encoding='utf-8', newline='') as f:
             leitor = csv.reader(f)
             MATRIZ_USUARIOS = list(leitor)
             
-    # Carregar Livros
+  
     if os.path.exists(ARQUIVO_LIVROS):
         with open(ARQUIVO_LIVROS, mode='r', encoding='utf-8', newline='') as f:
             leitor = csv.reader(f)
-            # Como páginas totais e lidas são numéricas, mantemos a estrutura convertida
+            
             for linha in leitor:
                 if len(linha) == 10:
-                    linha[7] = int(linha[7])  # Páginas Totais
-                    linha[8] = int(linha[8])  # Páginas Lidas
+                    linha[7] = int(linha[7])  
+                    linha[8] = int(linha[8])  #
                     MATRIZ_LIVROS.append(linha)
 
 def salvar_usuarios():
@@ -45,7 +43,7 @@ def salvar_livros():
         escritor.writerows(MATRIZ_LIVROS)
 
 
-# --- SISTEMA ORIGINAL ADAPTADO COM PERSISTÊNCIA ---
+
 
 def verificar_usuario_existente(username_procurado):
     for usuario in MATRIZ_USUARIOS:
@@ -74,7 +72,7 @@ def registrar_usuario():
     novo_usuario = [nome, username, senha, nascimento]
     MATRIZ_USUARIOS.append(novo_usuario)
     
-    salvar_usuarios()  # Salva a alteração no arquivo
+    salvar_usuarios() 
     print(f"Usuário '{username}' registrado com sucesso!")
 
 def validar_credenciais(username_digitado, senha_digitada):
@@ -122,7 +120,7 @@ def editar_usuario():
             MATRIZ_USUARIOS[i][2] = input("Nova Senha: ") or MATRIZ_USUARIOS[i][2]
             MATRIZ_USUARIOS[i][3] = input(f"Nova Data Nasc. [{MATRIZ_USUARIOS[i][3]}]: ") or MATRIZ_USUARIOS[i][3]
             
-            salvar_usuarios()  # Salva a alteração no arquivo
+            salvar_usuarios()  
             print("Dados atualizados com sucesso!")
             return
 
@@ -137,9 +135,9 @@ def excluir_usuario():
         for i in range(len(MATRIZ_USUARIOS)):
             if MATRIZ_USUARIOS[i][1] == USUARIO_LOGADO:
                 MATRIZ_USUARIOS.pop(i)
-                salvar_usuarios()  # Salva após remover do arquivo
+                salvar_usuarios()  
                 
-                # Também removemos os livros associados a esse usuário para manter a consistência
+                
                 global MATRIZ_LIVROS
                 MATRIZ_LIVROS = [livro for livro in MATRIZ_LIVROS if livro[9] != USUARIO_LOGADO]
                 salvar_livros()
@@ -174,7 +172,7 @@ def cadastrar_livro():
     novo_livro = [titulo, autor, editora, edicao, year, isbn, status, paginas_totais, paginas_lidas, USUARIO_LOGADO]
     MATRIZ_LIVROS.append(novo_livro)
     
-    salvar_livros()  # Salva a alteração no arquivo
+    salvar_livros() 
     print(f"Livro '{titulo}' cadastrado com sucesso!")
 
 def exibir_livros():
@@ -235,7 +233,7 @@ def remover_livro():
             return
             
         MATRIZ_LIVROS.pop(idx)
-        salvar_livros()  # Salva a alteração no arquivo
+        salvar_livros()  
         print("Livro removido com sucesso!")
     except ValueError:
         print("Entrada inválida.")
