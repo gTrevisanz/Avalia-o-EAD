@@ -27,7 +27,7 @@ def carregar_dados():
             for linha in leitor:
                 if len(linha) == 10:
                     linha[7] = int(linha[7])  
-                    linha[8] = int(linha[8])  #
+                    linha[8] = int(linha[8])  
                     MATRIZ_LIVROS.append(linha)
 
 def salvar_usuarios():
@@ -288,5 +288,5 @@ def menu_principal():
             print("Opção inválida.")
 
 if __name__ == "__main__":
-    carregar_dados()  # Inicializa o sistema carregando os dados salvos previamente
+    carregar_dados()
     menu_principal()
